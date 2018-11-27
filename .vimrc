@@ -78,6 +78,8 @@ let mapleader=" "
 :nnoremap <leader>z za
 :nnoremap B ^
 :nnoremap E $
+:vnoremap B ^
+:vnoremap E $
 
 set wildmenu " what is this?
 set wildignore+=*.bmp,*.gif,*.ico,*.jpg,*.png,*.ico
