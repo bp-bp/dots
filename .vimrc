@@ -22,6 +22,7 @@ set nocompatible
 call plug#begin('~/.vim/plugged')
 
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'mileszs/ack.vim'
 
 call plug#end()
 
@@ -55,6 +56,20 @@ let g:netrw_altv = 1
 let g:netrw_winsize = 15 
 let g:netrw_list_hide = netrw_gitignore#Hide()
 
+let g:ackprg = "ag --vimgrep"
+
+function Search(string) abort
+  let saved_shellpipe = &shellpipe
+  let &shellpipe = '>'
+  try
+    execute 'Ack!' shellescape(a:string, 1)
+  finally
+    let &shellpipe = saved_shellpipe
+  endtry
+endfunction
+
+nnoremap <C-F> :call Search("")<left><left>
+
 "set tabstop=4
 "set shiftwidth=4
 set softtabstop=2
@@ -67,6 +82,7 @@ set hidden
 set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
 set foldmethod=indent
 set foldlevelstart=20
+set wrap linebreak nolist
 
 let mapleader=" "
 :nnoremap <leader>w <c-w>w
@@ -78,11 +94,14 @@ let mapleader=" "
 :nnoremap <leader>z za
 :nnoremap B ^
 :nnoremap E $
+:vnoremap B ^
+:vnoremap E $
 
 set wildmenu " what is this?
 set wildignore+=*.bmp,*.gif,*.ico,*.jpg,*.png,*.ico
 set wildignore+=*.pdf,*.psd
 set wildignore+=**/node_modules
+set wildignore+=**/dist
 set nobackup
 set nowritebackup
 set noswapfile
@@ -125,6 +144,8 @@ if has("autocmd")
   " Also load indent files, to automatically do language-dependent indenting.
   filetype plugin indent off
   set autoindent
+
+  au BufNewFile,BufRead *.ejs set filetype=html
 
   " Put these in an autocmd group, so that we can delete them easily.
   augroup vimrcEx
