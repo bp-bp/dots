@@ -23,8 +23,14 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'mileszs/ack.vim'
+Plug 'rafi/awesome-vim-colorschemes'
+Plug 'larsbs/vimterial_dark'
+Plug 'gvee-s/simo-zz-2'
+Plug 'calviken/vim-gdscript3'
 
 call plug#end()
+
+
 
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
@@ -56,6 +62,8 @@ let g:netrw_altv = 1
 let g:netrw_winsize = 15 
 let g:netrw_list_hide = netrw_gitignore#Hide()
 
+let g:ctrlp_switch_buffer = 0
+
 let g:ackprg = "ag --vimgrep"
 
 function Search(string) abort
@@ -68,8 +76,15 @@ function Search(string) abort
   endtry
 endfunction
 
-nnoremap <C-F> :call Search("")<left><left>
+function GetSyntax() abort
+  let s = synID(line('.'), col('.'), 2) | echo synIDattr(s, 'name') . ' -> ' . synIDattr(synIDtrans(s), 'name')
+endfunction
 
+nnoremap <C-F> :call Search("")<left><left>
+" outputs the syntax highlighting group that applies to whatever's under the cursor
+nnoremap <C-X> :call GetSyntax()
+
+" moved these here...
 "set tabstop=4
 "set shiftwidth=4
 set softtabstop=2
@@ -110,6 +125,12 @@ set number
 set backspace=indent,eol,start
 highlight LineNr ctermfg=grey
 
+let g:ctrlp_custom_ignore = 'node_modules\|git\|build'
+"let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -c --exclude-standard']
+
+set laststatus=2
+set statusline+=%<%f%m
+
 " yank to clipboard
 if has("clipboard")
   set clipboard=unnamed " copy to the system clipboard
@@ -142,10 +163,12 @@ if has("autocmd")
   " Use the default filetype settings, so that mail gets 'tw' set to 72,
   " 'cindent' is on in C files, etc.
   " Also load indent files, to automatically do language-dependent indenting.
-  filetype plugin indent off
+  " filetype plugin indent off
+  filetype plugin on
+  filetype indent off
   set autoindent
 
-  au BufNewFile,BufRead *.ejs set filetype=html
+  au BufNewFile,BufRead *.ejs,*.vue set filetype=html
 
   " Put these in an autocmd group, so that we can delete them easily.
   augroup vimrcEx
@@ -180,7 +203,9 @@ endif
 
 if has('langmap') && exists('+langnoremap')
   " Prevent that the langmap option applies to characters that result from a
-  " mapping.  If unset (default), this may break plugins (but it's backward
+  " mapping.  If unset (default), this may break etlugins (but it's backward
   " compatible).
   set langnoremap
 endif
+
+colorscheme bp-colors

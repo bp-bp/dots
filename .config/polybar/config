@@ -1,7 +1,7 @@
 [colors]
 background = #111
-foreground = #ccc
-linecolor = #8a168c
+foreground = #89c6ff
+linecolor = #89c6ff
 bordercolor = #444
 accent = #00ff00
 
@@ -34,15 +34,6 @@ bottom = true
 background = ${colors.background}
 foreground = ${colors.foreground}
 
-;background-0 = #333
-;background-1 = #222
-;background-2 = ${self.background-1}
-;background-3 = ${self.background-1}
-;background-4 = ${self.background-1}
-;background-5 = ${self.background-1}
-;background-6 = ${self.background-1}
-;background-7 = #111
-
 line-color = ${colors.linecolor}
 underline-size = 0
 overline-size = 2
@@ -58,14 +49,14 @@ padding-right = 2
 module-margin-left = 1
 module-margin-right = 2
 
-font-0 = dina:pixelsize=9;1
+font-0 = dina:pixelsize=12;1
 font-1 = siji:pixelsize=10;1
 font-2 = unifont:size=6;1
 
 modules-left = bspwm i3
 ;modules-center = mpd
 modules-center = xwindow
-modules-right = xkeyboard xbacklight volume wifi battery memory cpu date
+modules-right = volume wifi battery memory cpu date
 
 tray-position = right
 tray-padding = 4
@@ -93,35 +84,66 @@ bspwm-focused-overline = ${colors.linecolor}
 bspwm-focused-underline = #cc333333
 
 [bar/other]
-inherit = bar/main
-
 enable-ipc = true
 monitor = ${env:MONITOR:HDMI1}
-;monitor-fallback = eDP-1
-;bottom = true
+width = 100%
+height = 24
+;radius = 5.0
+;fixed-center = false
 ;override-redirect = true
+bottom = true
 
-underline-size = ${bar/main.overline-size}
-overline-size = ${bar/main.underline-size}
+background = ${colors.background}
+foreground = ${colors.foreground}
 
-;border-top-size = 2
-;border-top-color = ${colors.bordercolor}
+line-color = ${colors.linecolor}
+underline-size = 0
+overline-size = 2
+
+;border-size = 5
+;border-color = 0
 ;border-bottom-size = 0
+;border-top-size = 1
+;border-top-color = ${colors.bordercolor}
+
+padding-left = 0
+padding-right = 2
+module-margin-left = 1
+module-margin-right = 2
+
+font-0 = dina:pixelsize=12;1
+font-1 = siji:pixelsize=10;1
+font-2 = unifont:size=6;1
 
 modules-left = bspwm i3
-;modules-left =
-;modules-left = xwindow
-;modules-center = xwindow
-modules-center =
-modules-right = github fs-root date power-menu
+;modules-center = mpd
+modules-center = xwindow
+modules-right = volume wifi battery memory cpu date
 
-wm-restack = ${bar/main.wm-restack}
+tray-position = right
+tray-padding = 4
+tray-maxsize = 16
+;tray-transparent = true
+;tray-detached = true
+;tray-offset-x = 50
 
-tray-position = none
+wm-restack = bspwm
+
+;dim-value = 0.2
+
+;click-left =
+;click-middle =
+;click-right =
+scroll-up = bspwm-deskprev
+scroll-down = bspwm-desknext
+;scroll-up = i3wm-wsnext
+;scroll-down = i3wm-wsprev
+;double-click-left = notify-send -u low doubleclick
+;double-click-right = notify-send -u low doubleclick2
 
 # bar/module specific vars
-bspwm-focused-overline = #cc333333
-bspwm-focused-underline = ${colors.linecolor}
+bspwm-focused-overline = ${colors.linecolor}
+bspwm-focused-underline = #cc333333
 
 [module/github]
 type = internal/github
@@ -304,7 +326,7 @@ label-connected = %local_ip%
 type = internal/date
 label = %{F#666}%{F-} %date%  %{F#e60053}%{F-} %time%
 date = %m-%d-%Y
-time = %H:%M
+time = %I:%M %p
 interval = 5
 
 [module/xbacklight]
@@ -323,7 +345,7 @@ headphone-mixer = Headphone
 headphone-id = 9
 
 format-volume = <ramp-volume> <label-volume>
-label-volume = %percentage%%
+label-volume = vol %percentage%%
 label-volume-foreground = ${root.foreground}
 
 format-muted-prefix = " "
@@ -349,7 +371,8 @@ format-charging = <animation-charging> <label-charging>
 label-charging = chg %percentage%% %time%
 
 format-discharging = <ramp-capacity> <label-discharging>
-label-discharging = bat %percentage%% %time%
+;label-discharging = bat %percentage%% %time%
+label-discharging = bat %percentage%%
 
 format-full = <label-full>
 format-full-prefix = " "
