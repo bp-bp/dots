@@ -30,7 +30,9 @@ Plug 'calviken/vim-gdscript3'
 
 call plug#end()
 
-
+if &term=="alacritty"
+  set term=xterm-256color
+endif
 
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
@@ -167,6 +169,7 @@ if has("autocmd")
   filetype plugin on
   filetype indent off
   set autoindent
+  set formatoptions-=c formatoptions-=r formatoptions-=o
 
   au BufNewFile,BufRead *.ejs,*.vue set filetype=html
 
@@ -207,5 +210,7 @@ if has('langmap') && exists('+langnoremap')
   " compatible).
   set langnoremap
 endif
+
+set laststatus=2
 
 colorscheme bp-colors
